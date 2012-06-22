@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<p><strong>Repositories in {{ basedir }}</strong></p>
+{% for log in logs %}
+<span class="lead">{{ log }}</span>
+
+<table class="table table-condensed table-striped">
+<thead>
+    <tr>
+        <th>Rev</th>
+        <th>Who</th>
+        <th>When</th>
+        <th>Message</th>
+    </tr>
+</thead>
+<tbody>  
+{% for entry in logs[log] %}
+<tr>
+    <td><a href="#Diff">{{entry[0]}}</a></td>
+    <td>{{entry[1]}}</td>
+    <td>{{entry[2]}}</td>
+    <td>{{entry[3]}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endfor %}
+{% endblock content %}
