@@ -9,13 +9,13 @@ class Git:
         return [os.path.dirname(e[0]).decode('utf-8') for e in os.walk(self.base) if os.path.basename(e[0]) == '.git']
 
     def log(self, repo):
-        cmd = ' '.join(['git','--git-dir','%s/.git' % repo, 'log','--pretty=format:%h#%an#%ar#%s'])
+        cmd = ' '.join(['git','--git-dir', os.path.join(repo,'.git'), 'log','--pretty=format:%h#%an#%ar#%s'])
         result = os.popen(cmd).readlines()
         split_by_slash = [line.split('#') for line in result]        
         return split_by_slash
 
     def commit_info(self, repo, rev):
-        cmd = ' '.join(['git','--git-dir','%s/.git' % repo, 'show', rev])
+        cmd = ' '.join(['git','--git-dir', os.path.join(repo,'.git'), 'show', rev])
         result = os.popen(cmd).readlines()
         file_dict = {}
         current_file = None
