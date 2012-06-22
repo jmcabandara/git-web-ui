@@ -14,13 +14,15 @@ BASE_REPO_DIR = os.path.expanduser('~')
 if len(sys.argv) > 1:
     BASE_REPO_DIR = sys.argv[1]
 
+# Collect info
+git = Git(BASE_REPO_DIR)
+repo_paths = git.repos()
+
 # Views
 
 @app.route('/')
 def repos():
     error = None
-    git = Git(BASE_REPO_DIR)    
-    repo_paths = git.repos()
     if not repo_paths:
         error = 'No repositories found!'
 
@@ -33,8 +35,7 @@ def repos():
 
 @app.route('/<repo_name>/<rev>')
 def commit_info(repo_name,rev):
-    git = Git(BASE_REPO_DIR)
-    repo_path = filter(lambda repo: repo.endswith(repo_name), git.repos())[0]
+    repo_path = filter(lambda repo: repo.endswith(repo_name), repo_paths)[0]
     diff = git.commit_info(repo_path, rev)    
 
     return render_template('diff.html', diff=diff) 

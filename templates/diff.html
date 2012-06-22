@@ -1,6 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Repositories</a> <span class="divider">/</span></li>
+    <li class="active">This</li>
+</ul>
 <pre class="prettyprint linenums">
 {{diff}}
 </pre>
