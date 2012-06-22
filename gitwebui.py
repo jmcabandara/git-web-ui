@@ -1,9 +1,8 @@
 import os
 from subprocess import check_output
-from flask import Flask, render_template, session, flash
+from flask import Flask, render_template, flash
 
 DEBUG = True
-SECRET_KEY = 'abcd123'
 
 BASE_REPO_DIR = '/home/xterm/.venv/'
 
