@@ -3,6 +3,7 @@
 <head>
     <title>Git Web UI</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/prettify.css') }}">
     <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
     <style>
         body {
@@ -11,7 +12,7 @@
         };
     </style>
 </head>
-<body>
+<body onload="prettyPrint()">
 <div class='container'>
 {% if error%}
 <div class='span4 alert alert-error'>
@@ -29,6 +30,6 @@
   {% endif %}
 {% endwith %}
 {% block content %}This is the content block{% endblock %}
-
+<script type="text/javascript" src="{{ url_for('static', filename='js/prettify.js') }}"></script>
 </body>
 </html>
