@@ -1,13 +1,20 @@
 import os
+import sys
 from subprocess import check_output
 from flask import Flask, render_template, flash
 
 DEBUG = True
 
-BASE_REPO_DIR = '/home/xterm/.venv/'
-
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+# App specific settings
+
+BASE_REPO_DIR = os.path.expanduser('~') 
+if len(sys.argv) > 1:
+    BASE_REPO_DIR = sys.argv[1]
+
+# Views
 
 @app.route('/')
 def repos():

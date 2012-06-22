@@ -8,11 +8,11 @@ Installation
 
 pip install -r requirements.txt
 
-Edit the gitwebui.py file and update 
+Running
+=======
 
-    BASE_REPO_DIR = '/home/xterm/.venv/'
+python gitwebui.py /path/to/basedir
 
-With a root folder containing your repositories
+or if you wish to use ~/ you can simply omit the second argument
 
-P.S.: gitwebui will walk through the entire BASE_REPO_DIR so be mindful of it.
-
+P.S.: gitwebui will walk through the entire basedir so be mindful of what you set.
