@@ -5,7 +5,7 @@ class Git:
         self.base = base
 
     def repos(self):
-        return [os.path.dirname(e[0]) for e in os.walk(self.base) if os.path.basename(e[0]) == '.git']
+        return [os.path.dirname(e[0]).decode('utf-8') for e in os.walk(self.base) if os.path.basename(e[0]) == '.git']
 
     def log(self, repo):
         cmd = ' '.join(['git','--git-dir','%s/.git' % repo, 'log','--pretty=format:%h#%an#%ar#%s'])
