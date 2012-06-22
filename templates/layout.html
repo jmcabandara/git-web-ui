@@ -13,12 +13,12 @@
     </style>
 </head>
 <body onload="prettyPrint()">
-<div class='container'>
-{% if error%}
-<div class='span4 alert alert-error'>
-{{error}}
-</div>
-{% endif%}
+    <div class='container'>
+        {% if error%}
+        <div class='span4 alert alert-error'>
+            {{error}}
+        </div>
+        {% endif%}
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -29,6 +29,7 @@
     </ul>
   {% endif %}
 {% endwith %}
+
 {% block content %}This is the content block{% endblock %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/prettify.js') }}"></script>
 </body>
