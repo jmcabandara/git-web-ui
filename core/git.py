@@ -1,4 +1,5 @@
 import os
+import re
 
 class Git:
     def __init__(self,base):
@@ -15,7 +16,22 @@ class Git:
 
     def commit_info(self, repo, rev):
         cmd = ' '.join(['git','--git-dir','%s/.git' % repo, 'show', rev])
-        result = ''.join(os.popen(cmd).readlines())
-        return result.decode('utf-8')
+        result = os.popen(cmd).readlines()
+        file_dict = {}
+        current_file = None
+        skipping = False
+        for line in result:
+            m = re.match(r'\+\+\+ b/(.+)',line)
+            m1 = re.match(r'diff --git .*',line)
+            if m:
+                current_file = m.group(1)
+                file_dict[current_file] = []
+                skipping = False
+            elif m1:
+                skipping = True 
+            elif current_file and not skipping:
+                file_dict[current_file].append(line)
+
+        return dict([(k,''.join(v)) for (k,v) in file_dict.items()])  
          
     

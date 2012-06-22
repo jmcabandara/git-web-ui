@@ -5,7 +5,11 @@
     <li><a href="/">Repositories</a> <span class="divider">/</span></li>
     <li class="active">This</li>
 </ul>
+
+{% for file in diff %}
+<p class="lead">{{file}}</p>
 <pre class="prettyprint linenums">
-    {{diff}}
+    {{diff[file]}}
 </pre>
+{% endfor %}
 {% endblock content %}
