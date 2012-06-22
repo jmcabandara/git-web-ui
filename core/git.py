@@ -16,6 +16,6 @@ class Git:
 
     def commit_info(self, repo, rev):
         result = check_output(['git','--git-dir','%s/.git' % repo, 'show', rev])
-        return result 
+        return result.decode('utf-8')
          
     
