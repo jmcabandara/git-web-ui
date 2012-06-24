@@ -86,12 +86,14 @@ class Diff:
         else:
             self.mode = self.mode[0]
 
+        # Cleaning
+        clean = { 'NEW':4, 'MODIFIED':3, 'DELETED':2 } 
+
+        for i in range(clean[self.mode]):
+            del self.data[0]
+
         self.code = ''.join(self.data[1:])
 
         return self
 
-  
-            
-
-        
 
