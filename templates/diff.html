@@ -7,9 +7,20 @@
 </ul>
 
 {% for diff in commit.diffs %}
-<p class="lead"></p>
+<p class="lead">{{diff.name}}</p>
+<p>
+{% if diff.mode == 'MODIFIED' %}
+    <span class="label">
+{% elif diff.mode == 'NEW' %}
+    <span class="label label-success">
+{% else %}
+    <span class="label label-important">
+{% endif %}
+        {{diff.mode}}
+    </span>
+</p>
 <pre class="prettyprint linenums">
-{{diff}}
+{{diff.code}}
 </pre>
 {% endfor %}
 {% endblock content %}

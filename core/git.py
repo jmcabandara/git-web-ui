@@ -63,26 +63,34 @@ class DiffBuilder:
 
     def build(self, data, indexes):
         if len(indexes) == 1:
-            diff = Diff(data[indexes[0]:])
-            diff.build()
-            self.diffs.append(''.join(data[indexes[0]:]))
+            diff = Diff(data[indexes[0]:]).build()
+            self.diffs.append(diff)
         else:
             for a, b in pairwise(indexes):
-                self.diffs.append(''.join(data[a:b]))     
+                diff = Diff(data[a:b]).build()
+                self.diffs.append(diff)     
             
-            self.diffs.append(''.join(data[indexes[-1]:]))
-
-
-FILE_MODE = ('ADDED', 'DELETED', 'MODIFIED')
+            diff = Diff(data[indexes[-1]:]).build()
+            self.diffs.append(diff)
 
 class Diff:
     def __init__(self, data):
         self.data = data
 
     def build(self):
-        pass 
-                       
+        self.name = re.match('diff --git a/(.*) b/(.*)', self.data[0]).group(1) 
+ 
+        self.mode = [v.split()[0].upper() for v in self.data if v.startswith('new ') or v.startswith('deleted ')]
+        if not self.mode:
+            self.mode = 'MODIFIED'
+        else:
+            self.mode = self.mode[0]
 
+        self.code = ''.join(self.data[1:])
+
+        return self
+
+  
             
 
         
