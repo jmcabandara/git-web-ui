@@ -36,9 +36,9 @@ def repos():
 @app.route('/<repo_name>/<rev>')
 def commit_info(repo_name,rev):
     repo_path = filter(lambda repo: repo.endswith(repo_name), repo_paths)[0]
-    diff = git.commit_info(repo_path, rev)    
+    commit = git.commit_info(repo_path, rev)    
 
-    return render_template('diff.html', diff=diff) 
+    return render_template('diff.html', commit=commit) 
 
 if __name__ == '__main__':
     app.run()

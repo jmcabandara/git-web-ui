@@ -1,5 +1,12 @@
 import os
 import re
+from itertools import tee, izip
+
+def pairwise(iterable):
+    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+    a, b = tee(iterable)
+    next(b, None)
+    return izip(a, b)
 
 class Git:
     def __init__(self,base):
@@ -17,21 +24,66 @@ class Git:
     def commit_info(self, repo, rev):
         cmd = ' '.join(['git','--git-dir', os.path.join(repo,'.git'), 'show', rev])
         result = os.popen(cmd).readlines()
-        file_dict = {}
-        current_file = None
-        skipping = False
-        for line in result:
-            m = re.match(r'\+\+\+ b/(.+)',line)
-            m1 = re.match(r'diff --git .*',line)
-            if m:
-                current_file = m.group(1)
-                file_dict[current_file] = []
-                skipping = False
-            elif m1:
-                skipping = True 
-            elif current_file and not skipping:
-                file_dict[current_file].append(line)
+        
+        commit = Commit(result)
+        commit.build()
 
-        return dict([(k,''.join(v)) for (k,v) in file_dict.items()])  
+        return commit
          
-    
+
+class Commit:
+    def __init__(self, data):
+        self.data = data
+        self.diffs = []
+        
+    def build(self):
+        diff_indexes = [i for i, val in enumerate(self.data) if val.startswith('diff --git')]
+
+        commit_data = self.data[0:diff_indexes[0]]
+
+        self.commit = re.match('^commit (.*)', commit_data[0]).group(1)
+
+        m_author = re.match('^Author: (.+) <(.+)>', commit_data[1])
+        self.author_name = m_author.group(1)
+        self.author_email = m_author.group(2)
+
+        self.date = re.match('^Date:   (.*)', commit_data[2]).group(1)
+
+        self.message = '\n'.join(commit_data[4:-1]).strip()
+
+        diffbuilder = DiffBuilder()
+        diffbuilder.build(self.data, diff_indexes)
+        
+        self.diffs = diffbuilder.diffs
+ 
+
+class DiffBuilder:
+    def __init__(self):
+        self.diffs = [] 
+
+    def build(self, data, indexes):
+        if len(indexes) == 1:
+            diff = Diff(data[indexes[0]:])
+            diff.build()
+            self.diffs.append(''.join(data[indexes[0]:]))
+        else:
+            for a, b in pairwise(indexes):
+                self.diffs.append(''.join(data[a:b]))     
+            
+            self.diffs.append(''.join(data[indexes[-1]:]))
+
+
+FILE_MODE = ('ADDED', 'DELETED', 'MODIFIED')
+
+class Diff:
+    def __init__(self, data):
+        self.data = data
+
+    def build(self):
+        pass 
+                       
+
+            
+
+        
+

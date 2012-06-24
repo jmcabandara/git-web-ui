@@ -6,10 +6,10 @@
     <li class="active">This</li>
 </ul>
 
-{% for file in diff %}
-<p class="lead">{{file}}</p>
+{% for diff in commit.diffs %}
+<p class="lead"></p>
 <pre class="prettyprint linenums">
-    {{diff[file]}}
+{{diff}}
 </pre>
 {% endfor %}
 {% endblock content %}
