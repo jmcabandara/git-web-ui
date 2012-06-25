@@ -86,13 +86,23 @@ class Diff:
         else:
             self.mode = self.mode[0]
 
+        # Hack: When file is empy add an extra line
+        if self.mode == 'NEW' and len(self.data) < 4:
+            self.data.append('')
+            
+
         # Cleaning
         clean = { 'NEW':4, 'MODIFIED':3, 'DELETED':2 } 
 
         for i in range(clean[self.mode]):
             del self.data[0]
 
-        self.code = ''.join(self.data[1:])
+        line_count = len(self.data[1:])
+        char_count = map(lambda s: len(s), self.data[1:])
+        if line_count > 1000 or any(map(lambda i: i > 500, char_count)):
+            self.code = '[Suppressed]'
+        else:
+            self.code = ''.join(self.data[1:]).decode('utf-8')
 
         return self
 
