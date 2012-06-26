@@ -3,7 +3,8 @@
 {% block content %}
 <ul class="breadcrumb">
     <li><a href="/">Repositories</a> <span class="divider">/</span></li>
-    <li class="active">This</li>
+    <li><a href="/{{repo}}">{{repo}}</a> <span class="divider">/</span></li>
+    <li class="active">{{rev}}</li>
 </ul>
 
 {% for diff in commit.diffs %}

@@ -3,29 +3,20 @@
 {% block content %}
 <p><strong>Repositories in {{ basedir }}</strong></p>
 
-{% for log in logs %}
-<span class="lead">{{ log }}</span>
-
 <table class="table table-condensed table-striped">
     <thead>
         <tr>
-            <th>Rev</th>
-            <th>Who</th>
-            <th>When</th>
-            <th>Message</th>
+            <th>Name</th>
+            <th>Path</th>
         </tr>
     </thead>
     <tbody>  
-    {% for entry in logs[log] %}
+    {% for repo in repos %}
         <tr>
-            <td><a href="/{{log}}/{{entry[0]}}">{{entry[0]}}</a></td>
-            <td>{{entry[1].decode('utf-8')}}</td>
-            <td>{{entry[2]}}</td>
-            <td>{{entry[3]}}</td>
+            <td><a href="/{{repo}}">{{repo}}</a></td>
+            <td>{{repos[repo]}}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-{% endfor %}
-
 {% endblock content %}
