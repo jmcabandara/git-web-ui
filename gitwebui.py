@@ -28,7 +28,7 @@ def repos():
     repos = {}
 
     for repo in repo_paths:
-        repos[repo.split('/')[-1]] = repo
+        repos[os.path.split(repo)[-1]] = repo
 
     return render_template('index.html', repos=repos, error=error, basedir=BASE_REPO_DIR)
 
